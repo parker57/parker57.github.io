@@ -13,24 +13,27 @@
 var got_tribe = false;
 var got_trader = false;
 var aged_classical = false;
-var got_miner = false; //open up workshop research. (one for each resource) agricultural tools, lumber tools, bank/commodities, mining tools, scientific instrumentation (increse base click collection)
+var got_miner = false; //(increse base click collection)
 var got_scholar = false; //explore
+var can_age_modern = false;
 var aged_modern = false; //Happen on 10 expeditions - show oil
 
 
 //maybe load the hides before the JS to stop them breifly showing
+
 $("#wealth_box").hide();
 $("#metal_box").hide();
 $("#knowledge_box").hide();
 $("#oil_box").hide();
 
+$(".click_upgrade_buttons").hide();
 
 $("#classical").hide();
-/* just for ui testing
 $("#explore").hide();
 $("#modern").hide();
-*/
+
 var collect_rate = 1000;
+var explorations = 0;
 
 var food = 0;
 var wood = 0;
@@ -251,22 +254,26 @@ $(function(){
 	$("#classical").click(function(){
 		if (wealth >= 500){
 			$("#classical").remove(); //SHOULD COST 500 GOLD!
+			wealth -= 500;
 			aged_classical = true;
 			$("#metal_box").show();
 			$("#knowledge_box").show();
-		} else {
-			"<img src='images/food_cost.png'>" + next_scholar_cost_fo
-$("#scholar > p").html(next_scholar_cost_html);
 		}
 
 	})});
 $(function(){ 
 	$("#explore").click(function(){
-		get_farmer();
+		//Could Randomly add workers? If not find rares, be smart use general functions for finding rares.
+		++explorations;
+		//get_farmer();
 	})});
 $(function(){ 
 	$("#modern").click(function(){
-		get_farmer();
+		//ADD COST RESTRICTIONS LIKE WITH THE CLASSICAL ONE
+		$("#oil_box").show();
+		$("#modern").remove();
+		//get_farmer();
+		
 	})});
 
 
@@ -291,12 +298,29 @@ function update_display(){
 			got_tribe = true;
 			$("#wealth_box").show();
 		}; };
-	
 	if(~got_trader){
 		if (traders>0){
 			//message?
 			got_trader = true;
 			$("#classical").show();
+		}; };
+	if(~got_miner){
+		if (miners>0){
+			//message?
+			got_miner = true;
+			$(".click_upgrade_buttons").show();
+		}; };
+	if(~got_scholar){
+		if (scholars>0 && got_miner){
+			//message?
+			got_scholar = true;
+			$("#explore").show();
+		}; };
+	if(~can_age_modern){
+		if (explorations > 9){
+			//message?
+			can_age_modern = true;
+			$("#modern").show();
 		}; };
 	
 	
