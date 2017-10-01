@@ -1,5 +1,9 @@
 /* Ctrl + Click somewhere else to write muyltiple lines at once */
 
+*:focus {
+	outline: 0;
+}
+
 .row.display-flex {
   display: flex;
   flex-wrap: wrap;
@@ -59,6 +63,85 @@ button{
 	info box
 }
 */
+
+/*-- stronger sickle better axe harder bargain greater pick finer instruments tougher drill--
+CSS for individual click upgrade buttons*/
+#stronger_sickle{
+	text-decoration: underline;
+	text-decoration-style: double;
+	text-decoration-color: rgba( 170, 0, 21, 0.9);	
+}
+#better_axe{
+	text-decoration: underline;
+	text-decoration-style: double;
+	text-decoration-color: rgba( 121, 204, 30, 0.9);	
+}
+#harder_bargain{
+	text-decoration: underline;
+	text-decoration-style: double;
+	text-decoration-color: rgba( 245, 136, 52, 0.9);	
+}
+#greater_pick{
+	text-decoration: underline;
+	text-decoration-style: double;
+	text-decoration-color: rgba( 171, 110, 95, 0.9);	
+}
+#finer_instruments{
+	text-decoration: underline;
+	text-decoration-style: double;
+	text-decoration-color: rgba( 93, 121, 204, 0.9);	
+}
+#tougher_drill{
+	text-decoration: underline;
+	text-decoration-style: double;
+	text-decoration-color: rgba( 0, 0, 0, 0.9);
+	
+}
+
+
+.click_upgrade_buttons {
+	
+	-webkit-transition: all 0.2s linear 0s;
+	transition: all 0.2s linear 0s;
+	text-align: center;
+	display: inline-block;
+	position: relative;
+	text-decoration: none;
+	padding: 5px 0px;
+	border-radius: 6px;
+	overflow: hidden;
+	font-weight: 600;
+	height: 56px;
+}
+.click_upgrade_buttons:before {
+	/*background-color: rgba(255,255,255,1);*/
+	content: "----";
+	position: absolute;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	  -ms-flex-align: center;
+		  align-items: center;
+	-webkit-box-pack: center;
+	  -ms-flex-pack: center;
+		  justify-content: center;
+	position: absolute;
+	top: 100%;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	-webkit-transition: all 0.2s linear 0s;
+	transition: all 0.2s linear 0s;
+}
+.click_upgrade_buttons:hover {
+	text-indent: -9999px;
+}
+.click_upgrade_buttons:hover:before {
+	top: 0;
+	text-indent: 0;
+}
 
 .res_box{
 	/*Might look better without this class.
