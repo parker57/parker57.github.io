@@ -1,0 +1,99 @@
+/* Ctrl + Click somewhere else to write muyltiple lines at once */
+
+.row.display-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+.row.display-flex > [class*='col-'] {
+  display: flex;
+  flex-direction: column;
+}
+
+body{
+	/* variable decleration
+	--main-bg-color: #eef;
+	background-color: var(--main-bg-color);
+	*/
+}
+
+hr{
+	border-top: 3px double #888;
+	margin: 1rem 2rem;
+}
+
+button{
+	background-color: transparent;
+	border: none;
+}
+
+.resource{
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+.resource:hover{
+	/*info box*/
+}
+
+.resexp{
+	/*research/ exploration*/
+	overflow: hidden;
+	padding: 0;
+	
+}
+.resexp > button{
+	margin: auto;
+	width: 100%;
+}
+.resexp > button > img:first-of-type{
+	border: 3px double #000;
+	height: 100%;
+	width: 100%;
+}
+/*
+.resexp > img:first-of-type {
+	research/ exploration
+	
+}
+.resexp:hover{
+	info box
+}
+*/
+
+.res_box{
+	/*Might look better without this class.
+	border: 1px solid black;*/
+	padding: 5px;
+}
+.res_box > button{
+	margin: auto;
+	width: 100%;
+}
+
+
+
+/*CSS for the Info boxes*/
+.info{
+	position: relative;
+	z-index: 24;
+}
+.info:hover{
+	z-index:25; /*higher than simply info meaning the index should render in front*/
+	/*something to know where you are hovering*/
+}
+.info span.infobox{
+	display: none;
+	
+}
+.info:hover span.infobox{
+	display: block;
+	position: absolute;
+	top: 1em;
+	right: 20%;
+	border: double 2px black;
+	background-color: white;
+	color: black;
+	font-weight: 600;
+	opacity: 0.9;
+	
+}
