@@ -1,7 +1,4 @@
-//You can get position() with jquery, it only provides top and left but with height and width that gives you everything.
-//USE TOOLTIP CSS FOR BUILDINGS!!!
-//GET GOOGLE ANALYTICS WORKING
-//HAVE A LOOK AT BITBURNER
+//tooltips could be a good way to show inf without cluttering the ui
 //Naming the Civ would be good.................. Levelling from resourece collection would be amazing. (where the hr bars are)
 //var next_farmer_cost_html = "<img src='images/wood_cost.png'>" + next_farmer_cost; -- these injections need to play once on load (WHEN SAVE IS IMPLEMENTED).
 //There will be overflow errors for worker costs once quantities get to about 100 (for three resources)
@@ -13,6 +10,7 @@
 	// got_tribe = (woodcutters + farmers) >= 5 ? true : false; could break down this ternary operator into if else blocks, 
 	//adding a status 'With a pop>5 you can now trade!' pop ups with absolute position form bottom of the screen could be good
 
+
 var got_tribe = false;
 var got_trader = false;
 var aged_classical = false;
@@ -21,8 +19,20 @@ var got_scholar = false; //explore
 var can_age_modern = false;
 var aged_modern = false; //Happen on 10 expeditions - show oil
 
-
 //maybe load the hides before the JS to stop them breifly showing
+var res_buttons = ["#stronger_sickle","#better_axe","#harder_bargain","#greater_pick","#finer_instruments","#tougher_drill"];
+var food_tool = 0;
+var wood_tool = 0;
+var wealth_tool = 0;
+var metal_tool = 0;
+var knowledge_tool = 0;
+var oil_tool = 0;
+
+for (i=0; i<res_buttons.length; i++){
+    var button_type = res_buttons[i] + " > p";
+    
+    $(button_type).html(500 + " <img src='images/metal_cost.png'>");
+}
 
 $("#wealth_box").hide();
 $("#metal_box").hide();
@@ -35,8 +45,7 @@ $("#classical").hide();
 $("#explore").hide();
 $("#modern").hide();
 
-var collect_rate = 1000;
-var explorations = 0;
+var explorations = 9;
 
 var food = 0;
 var wood = 0;
@@ -48,10 +57,10 @@ var oil = 0;
 //atm randome number between 1-9 is subtracted (easier for exponential increase metal upgrades)
 var base_food = 1000; //FOR TESTING
 var base_wood = 1000;
-var base_wealth = 10;
-var base_metal = 10;
-var base_knowledge = 10;
-var base_oil = 10;
+var base_wealth = 1000;
+var base_metal = 1000;
+var base_knowledge = 1000;
+var base_oil = 1000;
 
 var farmers = 0;
 var woodcutters = 0;
@@ -77,20 +86,15 @@ update_display();
 
 function collect(resource){
 	//Simply a function to register collection has taken place, start a 1 second timer and animate. Will not effect resource amount.
-	var res_img = resource + " > img";
+    //Function may be obselete.
+	
 	var res_status = resource + " > h4";
-	
-	$(resource).prop('disabled', true);
-	$(res_img).css('opacity','0');
-	$(res_status).css('visibility','visible');
-	
-	$(res_img).fadeTo(collect_rate, 1);
-	setTimeout(function(){
-		$(resource).prop('disabled', false);
-		$(res_status).css('visibility','hidden');
-	}, collect_rate);
-	
-};
+    
+    $(res_status).css('visibility','visible');
+	$(res_status).css('opacity','1');
+    $(res_status).fadeTo(250, 0);
+
+}
 
 //Get basic resource building functions.
 function get_farmer(){
@@ -178,50 +182,82 @@ function get_scholar(){
 
 
 //Functions which listen for clicks and update resource counts.
+//If the bhaviours for the various resources remain sufficiently similar you could put construct an object of the resources and use it for the pass by referenc feature, meaning only one gerneral function would be neccessary in leiu of several (one for each resource)
 $(function(){
-	$("#food").click(function(){
+	$("#food").click(function(e){
 		collect("#food");
-		food+=(base_food - Math.floor(Math.random()*10));
+        
+        var f_gathered = (base_food - Math.floor(Math.random()*10));
+        food+=f_gathered;
+        f_gathered += "<img src='images/food_cost.png'>";
+        animatePlus({x:e.pageX, y:e.pageY}, f_gathered);
+		
 		$("#food > p").text(food);
 	});	
 });
 
 $(function(){
-	$("#wood").click(function(){
+	$("#wood").click(function(e){
 		collect("#wood");
-		wood+=(base_wood - Math.floor(Math.random()*10));
+        //alert('clicked');
+        var wo_gathered = (base_wood - Math.floor(Math.random()*10));
+        wood+=wo_gathered;
+        wo_gathered += "<img src='images/wood_cost.png'>";
+        animatePlus({x:e.pageX, y:e.pageY}, wo_gathered);
+		//wood+=(base_wood - Math.floor(Math.random()*10));
+        
 		$("#wood > p").text(wood);
 	});	
 });
 
 $(function(){
-	$("#wealth").click(function(){
+	$("#wealth").click(function(e){
 		collect("#wealth");
-		wealth+=(base_wealth - Math.floor(Math.random()*10));
+        
+        var we_gathered = (base_wealth - Math.floor(Math.random()*10));
+        wealth+=we_gathered;
+        we_gathered += "<img src='images/wealth_cost.png'>";
+        animatePlus({x:e.pageX, y:e.pageY}, we_gathered);
+		
 		$("#wealth > p").text(wealth);
 	});	
 });
 
 $(function(){
-	$("#metal").click(function(){
+	$("#metal").click(function(e){
 		collect("#metal");
-		metal+=(base_metal - Math.floor(Math.random()*10));
+        
+        var m_gathered = (base_metal - Math.floor(Math.random()*10));
+        metal += m_gathered;
+        m_gathered += "<img src='images/metal_cost.png'>";
+        animatePlus({x:e.pageX, y:e.pageY}, m_gathered);
+		
 		$("#metal > p").text(metal);
 	});	
 });
 
 $(function(){
-	$("#knowledge").click(function(){
+	$("#knowledge").click(function(e){
 		collect("#knowledge");
-		knowledge+=(base_knowledge - Math.floor(Math.random()*10));
+        
+        var k_gathered = (base_knowledge - Math.floor(Math.random()*10));
+        knowledge+=k_gathered;
+        k_gathered += "<img src='images/knowledge_cost.png'>";
+        animatePlus({x:e.pageX, y:e.pageY}, k_gathered);
+		
 		$("#knowledge > p").text(knowledge);
 	});	
 });
 
 $(function(){
-	$("#oil").click(function(){
+	$("#oil").click(function(e){
 		collect("#oil");
-		oil+=(base_oil - Math.floor(Math.random()*10));
+        
+        var o_gathered = (base_oil - Math.floor(Math.random()*10));
+        oil+=o_gathered;
+        o_gathered += "<img src='images/oil_cost.png'>";
+        animatePlus({x:e.pageX, y:e.pageY}, o_gathered);
+		
 		$("#oil > p").text(oil);
 	});	
 });
@@ -256,7 +292,7 @@ $(function(){
 $(function(){ 
 	$("#classical").click(function(){
 		if (wealth >= 500){
-			$("#classical").remove(); //SHOULD COST 500 GOLD!
+			$("#classical").remove(); 
 			wealth -= 500;
 			aged_classical = true;
 			$("#metal_box").show();
@@ -291,7 +327,7 @@ function update_game(){
 	oil += Math.floor(pu_gr_oil * drillers);
 	
 	update_display();
-};
+}
 
 function update_display(){
 
@@ -300,31 +336,31 @@ function update_display(){
 			//message?
 			got_tribe = true;
 			$("#wealth_box").show();
-		}; };
+		} }
 	if(~got_trader){
 		if (traders>0){
 			//message?
 			got_trader = true;
 			$("#classical").show();
-		}; };
+		} }
 	if(~got_miner){
 		if (miners>0){
 			//message?
 			got_miner = true;
 			$(".click_upgrade_buttons").show();
-		}; };
+		} }
 	if(~got_scholar){
 		if (scholars>0 && got_miner){
 			//message?
 			got_scholar = true;
 			$("#explore").show();
-		}; };
+		} }
 	if(~can_age_modern){
 		if (explorations > 9){
 			//message?
 			can_age_modern = true;
 			$("#modern").show();
-		}; };
+		} }
 	
 	
 	$("#food > p").text(food);
@@ -348,23 +384,30 @@ function update_display(){
 
 window.setInterval(function(){
 	update_game();
+    
 }, 1000);
 
-/*
-working update display
-$("#food > p").text(food);
-$("#wood > p").text(wood);
-$("#wealth > p").text(wealth);
-$("#metal > p").text(metal);
-$("#knowledge > p").text(knowledge);
-$("#oil > p").text(oil);
 
-$("#farmer > h4").text(farmers);
-$("#woodcutter > h4").text(woodcutters);
-$("#trader > h4").text(traders);
-$("#miner > h4").text(miners);
-$("#scholar > h4").text(scholars);
-$("#driller > h4").text(drillers);
-*/
+function animatePlus(origin = {x: 100, y: 100}, value = 0, time = 1000, height = 100) { 
+    //seihoukei's
 
-
+    let dvPlus = document.createElement("div")
+    dvPlus.className = "floating-plus"
+    dvPlus.innerHTML = `+${value}` //template tags
+    dvPlus.style.left = `${origin.x - (dvPlus.offsetWidth >> 1)}px`, // Adds x position to nev div.
+    document.body.appendChild(dvPlus)
+    
+    //actually animate it
+    dvPlus.animate([{
+        top : `${origin.y}px`,
+        opacity : 1
+    },{
+        top : `${origin.y - (height >> 1)}px`,
+        opacity : 1
+    },{
+        top : `${origin.y - height}px`,
+        opacity : 0
+    }], time).onfinish = (event) => {
+        dvPlus.parentElement.removeChild(dvPlus)
+    }
+}

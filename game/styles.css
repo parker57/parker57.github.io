@@ -111,11 +111,12 @@ CSS for individual click upgrade buttons*/
 	border-radius: 6px;
 	overflow: hidden;
 	font-weight: 600;
+    font-size: 1.2rem;
 	height: 56px;
 }
 .click_upgrade_buttons:before {
 	/*background-color: rgba(255,255,255,1);*/
-	content: "----";
+	content: "Improve your Clicks";
 	position: absolute;
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -179,4 +180,12 @@ CSS for individual click upgrade buttons*/
 	font-weight: 600;
 	opacity: 0.9;
 	
+}
+
+.floating-plus{
+    position: absolute;
+    color: #fff;
+    font-weight: 900;
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 5px;
 }
