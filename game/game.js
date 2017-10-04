@@ -1,25 +1,16 @@
-//Breakdown the pseudoclasses by id? that way you can show a more specific message than improve your clicks.
+//Tooltips could be an effective way to elaborate on the boxes.
 
-//tooltips could be a good way to show inf without cluttering the ui
-//Naming the Civ would be good.................. Levelling from resourece collection would be amazing. (where the hr bars are)
-//var next_farmer_cost_html = "<img src='images/wood_cost.png'>" + next_farmer_cost; -- these injections need to play once on load (WHEN SAVE IS IMPLEMENTED).
-//There will be overflow errors for worker costs once quantities get to about 100 (for three resources)
-//Watch videos on Big O notation.
-//Maybe the first explorer should discover a rare straight away, to show the player it is possible, then after have a chance for finding nothing or runes.
+//Explorer should be more interesting (e.g discover rare resources which provide basic resources as well as add % improvements to the game [citrus, +10 wood, +10 food, +10% farmer productivity.])
+//News box, with five or so items that update over time
 
-//IMPLEMENTED IN UPDATE DISPLAY FUCNTION
-	//News box could have a max of 5 or so Items stored in an array, pop and push, and display all of them in a box.
-	// got_tribe = (woodcutters + farmers) >= 5 ? true : false; could break down this ternary operator into if else blocks, 
-	//adding a status 'With a pop>5 you can now trade!' pop ups with absolute position form bottom of the screen could be good
-
-
+//These boolean variables decide how much of the game is open up.
 var got_tribe = false;
 var got_trader = false;
 var aged_classical = false;
-var got_miner = false; //(increse base click collection)
-var got_scholar = false; //explore
+var got_miner = false; 
+var got_scholar = false; 
 var can_age_modern = false;
-var aged_modern = false; //Happen on 10 expeditions - show oil
+var aged_modern = false; 
 
 //maybe load the hides before the JS to stop them breifly showing
 var res_buttons = ["#stronger_sickle","#better_axe","#harder_bargain","#greater_pick","#finer_instruments","#tougher_drill"];
@@ -95,7 +86,6 @@ $(document).ready(function(){
 function collect(resource){
 	//Simply a function to register collection has taken place, start a 1 second timer and animate. Will not effect resource amount.
     //Function may be obselete.
-	
 	var res_status = resource + " > h4";
     
     $(res_status).css('visibility','visible');
@@ -279,7 +269,7 @@ $(function(){
 
 //Functions which listen for clicks and update resource counts.
 //If the bhaviours for the various resources remain sufficiently similar you could construct an object of the resources and use it for the pass by referenc feature, meaning only one gerneral function would be neccessary in leiu of several (one for each resource)
-//This has been implemented in the signle function that is called to upgrade one of the many tools. It takes a integer argument where that integer is the index of both a list and an object.
+//This has been implemented in the single function that is called to upgrade one of the many tools. It takes a integer argument where that integer is the index of both a list and an object.
 $(function(){
 	$("#food").click(function(e){
 		collect("#food");
