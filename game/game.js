@@ -1,3 +1,5 @@
+//Breakdown the pseudoclasses by id? that way you can show a more specific message than improve your clicks.
+
 //tooltips could be a good way to show inf without cluttering the ui
 //Naming the Civ would be good.................. Levelling from resourece collection would be amazing. (where the hr bars are)
 //var next_farmer_cost_html = "<img src='images/wood_cost.png'>" + next_farmer_cost; -- these injections need to play once on load (WHEN SAVE IS IMPLEMENTED).
@@ -21,17 +23,13 @@ var aged_modern = false; //Happen on 10 expeditions - show oil
 
 //maybe load the hides before the JS to stop them breifly showing
 var res_buttons = ["#stronger_sickle","#better_axe","#harder_bargain","#greater_pick","#finer_instruments","#tougher_drill"];
-var food_tool = 0;
-var wood_tool = 0;
-var wealth_tool = 0;
-var metal_tool = 0;
-var knowledge_tool = 0;
-var oil_tool = 0;
+var tools = [0,0,0,0,0,0]; //KeyValue pairs with res_buttons.
+
+var base_upgrade_cost = 500;
 
 for (i=0; i<res_buttons.length; i++){
     var button_type = res_buttons[i] + " > p";
-    
-    $(button_type).html(500 + " <img src='images/metal_cost.png'>");
+    $(button_type).html(base_upgrade_cost + " <img src='images/metal_cost.png'>");
 }
 
 $("#wealth_box").hide();
@@ -45,7 +43,7 @@ $("#classical").hide();
 $("#explore").hide();
 $("#modern").hide();
 
-var explorations = 9;
+var explorations = 0;
 
 var food = 0;
 var wood = 0;
@@ -55,12 +53,12 @@ var knowledge = 0;
 var oil = 0;
 
 //atm randome number between 1-9 is subtracted (easier for exponential increase metal upgrades)
-var base_food = 1000; //FOR TESTING
-var base_wood = 1000;
-var base_wealth = 1000;
-var base_metal = 1000;
-var base_knowledge = 1000;
-var base_oil = 1000;
+var base_food = 15; //FOR TESTING
+var base_wood = 15;
+var base_wealth = 15;
+var base_metal = 15;
+var base_knowledge = 15;
+var base_oil = 15;
 
 var farmers = 0;
 var woodcutters = 0;
@@ -83,6 +81,16 @@ var pu_gr_oil = 1;
 
 
 update_display();
+//If save is implemented, then this should not run.
+$(document).ready(function(){
+    var king = null;
+    while (king == null)
+        {
+            king = prompt("Please type a name for your kingdom","England");   
+        };
+    $("#subtitle").text("Kingdom of " + king);
+});
+
 
 function collect(resource){
 	//Simply a function to register collection has taken place, start a 1 second timer and animate. Will not effect resource amount.
@@ -179,10 +187,99 @@ function get_scholar(){
 	$("#scholar > p").html(next_scholar_cost_html);
 }
 
+function get_driller(){
+	var driller_cost_k = Math.floor(1000*Math.pow(1.1,drillers));
+	var driller_cost_m = Math.floor(200*Math.pow(1.1,drillers));
+	
+	if ((knowledge >= driller_cost_k) && (metal >= driller_cost_m)){
+		
+		++drillers;
+		knowledge -= driller_cost_k;
+		metal -= driller_cost_m;
+		update_display();
+		
+	}
+	var next_driller_cost_k = Math.floor(1000*Math.pow(1.1,scholars));
+	var next_driller_cost_m = Math.floor(200*Math.pow(1.1,scholars));
+	var next_driller_cost_html = "<img src='images/metal_cost.png'>" + next_driller_cost_m +"&ensp; <img src='images/knowledge_cost.png'>" + next_driller_cost_k;
+	$("#driller > p").html(next_driller_cost_html);
+}
+function upgrade_tool(t_index,e){
+    //THIS FUNCITON FOR UPGRADING, MADE GENERAL
+
+    var button_text = res_buttons[t_index] + " > p";
+    var upgrade_cost = Math.floor(base_upgrade_cost*Math.pow(1.5,tools[t_index]));
+    
+    if (metal >= upgrade_cost){
+        //Assumes cost are only metal (simplified).
+        metal -= upgrade_cost;
+        //animate downwards?
+        tools[t_index]+=1;
+        animatePlus({x:e.pageX,y:e.pageY},"Upgraded!",2000,50);
+        upgrade_cost = Math.floor(base_upgrade_cost*Math.pow(1.5,tools[t_index]));
+
+    }
+    
+    
+    var button_text = res_buttons[t_index] + " > p";
+    $(button_text).html( upgrade_cost + " <img src='images/metal_cost.png'>");
+	
+}
+
+$(function(){
+    $("#stronger_sickle").click(function(e){
+        upgrade_tool(0,e);
+        base_food += 10;
+    });
+});
+$(function(){
+    $("#better_axe").click(function(e){
+        upgrade_tool(1,e);
+        base_wood += 10;
+    });
+});
+$(function(){
+    $("#harder_bargain").click(function(e){
+        upgrade_tool(2,e);
+        base_wealth += 10;
+    });
+});
+$(function(){
+    $("#greater_pick").click(function(e){
+        upgrade_tool(3,e);
+        base_metal += 10;
+    });
+});
+$(function(){
+    $("#finer_instruments").click(function(e){
+        upgrade_tool(4,e);
+        base_knowledge += 10;
+    });
+});
+$(function(){
+    $("#tougher_drill").click(function(e){
+        upgrade_tool(5,e);
+        base_oil += 10;
+    });
+});
+
+$(function(){
+    $("#explore").click(function(e){
+        //Math.floor((Math.random() * 10)
+        if (explorations < 10){
+            //whatever the modern cost is.
+            animatePlus({x:e.pageX, y:e.pageY}, "KEEP CLICKING!", 2000,100);  
+            explorations += 1;
+        };
+
+    });
+});
+
 
 
 //Functions which listen for clicks and update resource counts.
-//If the bhaviours for the various resources remain sufficiently similar you could put construct an object of the resources and use it for the pass by referenc feature, meaning only one gerneral function would be neccessary in leiu of several (one for each resource)
+//If the bhaviours for the various resources remain sufficiently similar you could construct an object of the resources and use it for the pass by referenc feature, meaning only one gerneral function would be neccessary in leiu of several (one for each resource)
+//This has been implemented in the signle function that is called to upgrade one of the many tools. It takes a integer argument where that integer is the index of both a list and an object.
 $(function(){
 	$("#food").click(function(e){
 		collect("#food");

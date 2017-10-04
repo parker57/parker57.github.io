@@ -100,7 +100,7 @@ CSS for individual click upgrade buttons*/
 
 
 .click_upgrade_buttons {
-	
+	background-color: rgba(0,0,0,0.1);
 	-webkit-transition: all 0.2s linear 0s;
 	transition: all 0.2s linear 0s;
 	text-align: center;
@@ -112,7 +112,7 @@ CSS for individual click upgrade buttons*/
 	overflow: hidden;
 	font-weight: 600;
     font-size: 1.2rem;
-	height: 56px;
+	height: 48px;
 }
 .click_upgrade_buttons:before {
 	/*background-color: rgba(255,255,255,1);*/
