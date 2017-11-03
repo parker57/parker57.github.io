@@ -48,6 +48,12 @@ body{
 	color: #eee;
 }
 
+.article:hover h6 a{
+	color: #fbb;
+	/*font-weight: 900;*/
+	text-decoration: none;
+}
+
 .summary{
 	text-align: justify;
 	clear: both;
