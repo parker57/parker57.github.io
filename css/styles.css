@@ -28,7 +28,6 @@ body{
 
 .icon {
 	height: 150px;
-	max-width: 150px;
 	object-fit: contain;
 	margin: 0 auto;
 	display: block;
@@ -36,6 +35,10 @@ body{
 
 .art_pic{
  	border-radius: 50%;
+	background-size: center;
+	background-position: cover;
+	max-width: 150px;
+	height: 150px;
 }
 
 .services section {
@@ -94,6 +97,20 @@ body{
   flex-direction: column;
 }
 
+/*Image Cropper, will make large central circle from rectangular images currently not being used */
+.image-cropper {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+}
+.image-cropper > img {
+    display: inline;
+    margin: 0 auto;
+    height: 100%;
+    width: auto;
+}
 
 /*footer css*/
 
